@@ -1,0 +1,61 @@
+{
+  "name": "quizzy-back",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/quizzy-back/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/quizzy-back",
+        "main": "apps/quizzy-back/src/main.ts",
+        "tsConfig": "apps/quizzy-back/tsconfig.app.json",
+        "assets": [
+          "apps/quizzy-back/src/assets"
+        ],
+        "webpackConfig": "apps/quizzy-back/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "quizzy-back:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "quizzy-back:build:development"
+        },
+        "production": {
+          "buildTarget": "quizzy-back:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/quizzy-back/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
