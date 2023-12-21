@@ -4,7 +4,6 @@
 dist
 tmp
 /out-tsc
-/apps/quizzi-back/src/assets/quizzy-2d45f-firebase-adminsdk-uzcry-d655cfea9c.json
 
 # dependencies
 node_modules
@@ -40,3 +39,5 @@ testem.log
 Thumbs.db
 
 .nx/cache
+
+/apps/quizzi-back/src/assets/quizzy-2d45f-firebase-adminsdk-uzcry-d655cfea9c.json
