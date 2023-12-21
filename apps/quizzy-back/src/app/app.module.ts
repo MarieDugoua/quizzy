@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PingModule } from './modules/ping/ping.module';
 
 @Module({
-  imports: [],
+  imports: [PingModule],
   controllers: [AppController],
   providers: [AppService],
 })
