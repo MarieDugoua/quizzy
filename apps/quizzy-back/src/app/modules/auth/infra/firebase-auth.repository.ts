@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { UserDetails } from '../model/user-details';
-import { AuthRepository } from '../ports/auth.repository';
+import { VersionRepository } from '../ports/auth.repository';
 
 @Injectable()
-export class FirebaseAuthRepository implements AuthRepository {
+export class VersionFirebaseRepository implements VersionRepository {
   async getUserFromToken(token: string): Promise<UserDetails> {
     const decodedToken = await admin.auth().verifyIdToken(token);
 

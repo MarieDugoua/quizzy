@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
-import { AuthRepository } from './ports/auth.repository';
+import { VersionRepository } from './ports/auth.repository';
 
 export interface TokenDetails {
   email: string;
@@ -16,7 +16,7 @@ export class AuthMiddleware implements NestMiddleware {
   private readonly logger = new Logger(AuthMiddleware.name);
 
   constructor(
-    @Inject(AuthRepository) private readonly repository: AuthRepository
+    @Inject(VersionRepository) private readonly repository: VersionRepository
   ) {}
 
   public async use(req: RequestModel, _: Response, next: (error?: Error | unknown) => void) {
