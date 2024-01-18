@@ -3,7 +3,7 @@ import { FirebaseAdmin, FirebaseConstants } from 'nestjs-firebase';
 import { VersionRepository } from '../ports/out/version.repository';
 
 @Injectable()
-export class FirebaseVersionRepository implements VersionRepository{
+export class VersionFirebaseRepository implements VersionRepository{
     constructor(@Inject(FirebaseConstants.FIREBASE_TOKEN) private readonly fa: FirebaseAdmin) {}
 
     async getVersion(): Promise<string> {
@@ -13,3 +13,4 @@ export class FirebaseVersionRepository implements VersionRepository{
         return version.version;
     }
 }
+

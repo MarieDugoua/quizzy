@@ -7,8 +7,9 @@ import { FirebaseModule } from 'nestjs-firebase';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [PingModule,
-  FirebaseModule.forRoot({
+  imports: [
+    PingModule,
+    FirebaseModule.forRoot({
     googleApplicationCredential: 'apps/quizzy-back/src/assets/quizzy-2d45f-firebase-adminsdk-uzcry-d655cfea9c.json',
   }),
   AuthModule,

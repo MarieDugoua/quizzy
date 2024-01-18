@@ -18,14 +18,4 @@ export class PingController {
     }
   }
 
-  private async checkFirebaseStatus(firebaseAuth: any): Promise<boolean> {
-    try {
-      // Exemple de vérification de l'état de Firebase
-      await firebaseAuth.listUsers(1);
-      return true;
-    } catch (error) {
-      console.error('Firebase Error:', error);
-      return false;
-    }
-  }
 }
