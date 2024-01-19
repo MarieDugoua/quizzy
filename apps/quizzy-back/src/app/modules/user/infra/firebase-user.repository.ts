@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { UserDetails } from '../../auth/model/user-details';
 import { UserRepository } from '../ports/user.repository';
 import { User } from '../model/user';
+import { UserDetailDto } from '../controllers/user.controller';
 
 @Injectable()
 export class UserFirebaseRepository implements UserRepository {
-  /*async getUserFromToken(token: string): Promise<UserDetails> {
+  async getUserFromToken(token: string): Promise<UserDetailDto> {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
     return {
@@ -16,7 +16,7 @@ export class UserFirebaseRepository implements UserRepository {
     };
   }
 
-  async getUserByUid(uid: string): Promise<UserDetails> {
+  async getUserByUid(uid: string): Promise<User> {
     return await admin
       .auth()
       .getUser(uid)
@@ -25,7 +25,7 @@ export class UserFirebaseRepository implements UserRepository {
         email: user.email,
         uid: user.uid,
       }));
-  }*/
+  }
 
   async registerUser(user: User): Promise<void> {
     await admin.firestore().doc(`users/${user.uid}`).set({username: user.username});

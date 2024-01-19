@@ -26,10 +26,13 @@ export class UserController {
     @Get("/me")
     @Auth()
     async getMe(@Req() request: RequestWithUser): Promise<UserDetailDto> {
+        const { uid, email } = request.user;
+        const user = await this.userRepository.getUserByUid(uid);
+
         return {
-            uid: '123',
-            email: 'mail',
-            username: 'user.username',
+            username: user.username,
+            uid,
+            email
         };
     }
 
