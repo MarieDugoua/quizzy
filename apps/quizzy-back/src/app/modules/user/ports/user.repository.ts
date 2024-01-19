@@ -1,9 +1,9 @@
-import { UserDetails } from '../../model/user-details';
+import { User } from '../model/user';
 
 export const UserRepository = Symbol('UserRepository');
 export interface UserRepository {
-  getUserFromToken(token: string): Promise<UserDetails>;
+  /*getUserFromToken(token: string): Promise<User>;
 
-  getUserByUid(uid: string): Promise<UserDetails>;
-  registerUser(user: UserDetails): Promise<void>;
+  getUserByUid(uid: string): Promise<User>;*/
+  registerUser(user: User): Promise<void>;
 }

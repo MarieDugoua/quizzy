@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserController } from '../../controllers/user/user.controller';
+import { UserController } from './controllers/user.controller';
 import { UserRepository } from './ports/user.repository';
 import { UserFirebaseRepository } from './infra/firebase-user.repository';
 

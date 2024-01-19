@@ -1,7 +1,7 @@
-import { UserDetails } from '../../model/user-details';
+import { UserDetails } from '../model/user-details';
 
-export const VersionRepository = Symbol('VersionRepository');
-export interface VersionRepository {
+export const AuthRepository = Symbol('AuthRepository');
+export interface AuthRepository {
   getUserFromToken(token: string): Promise<UserDetails>;
 
   getUserByUid(uid: string): Promise<UserDetails>;

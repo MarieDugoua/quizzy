@@ -1,14 +1,14 @@
 import { AuthGuard } from './auth.guard';
-import { VersionRepository } from './ports/auth.repository';
-import { VersionFirebaseRepository } from './infra/firebase-auth.repository';
+import { AuthRepository } from './ports/auth.repository';
+import { AuthFirebaseRepository } from './infra/firebase-auth.repository';
 import { Module } from '@nestjs/common';
 
 @Module({
   controllers: [],
   providers: [
     AuthGuard,
-    { provide: VersionRepository, useClass: VersionFirebaseRepository },
+    { provide: AuthRepository, useClass: AuthFirebaseRepository },
   ],
-  exports: [AuthGuard, VersionRepository],
+  exports: [AuthGuard, AuthRepository],
 })
 export class AuthModule {}

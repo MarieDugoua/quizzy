@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
-import { VersionRepository } from './ports/auth.repository';
+import { AuthRepository } from './ports/auth.repository';
 
 export interface TokenDetails {
   email: string;
@@ -16,7 +16,7 @@ export class AuthMiddleware implements NestMiddleware {
   private readonly logger = new Logger(AuthMiddleware.name);
 
   constructor(
-    @Inject(VersionRepository) private readonly repository: VersionRepository
+    @Inject(AuthRepository) private readonly repository: AuthRepository
   ) {}
 
   public async use(req: RequestModel, _: Response, next: (error?: Error | unknown) => void) {
@@ -48,6 +48,7 @@ export class AuthMiddleware implements NestMiddleware {
   private getToken(authToken: string): string {
     const match = authToken.match(/^Bearer (.*)$/);
     if (!match || match.length < 2) {
+      this.logger.error('The token does not have the correct format');
       throw new UnauthorizedException('Invalid token');
     }
     return match[1];

@@ -7,6 +7,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     if (!user) {
+      console.error('could not find any user!!!');
       throw new UnauthorizedException();
     }
     return !!user;
