@@ -1,6 +1,6 @@
 import { Controller, Inject, Post } from '@nestjs/common';
 import { Auth } from '../../modules/auth/auth.decorator';
-import { RequestWithUser } from '../../modules/auth/model/request-with-user';
+import { RequestWithUser } from '../../modules/model/request-with-user';
 
 export interface CreateUserDataDto {
     username: string;
