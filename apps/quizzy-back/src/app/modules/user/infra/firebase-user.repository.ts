@@ -16,15 +16,16 @@ export class UserFirebaseRepository implements UserRepository {
     };
   }
 
-  async getUserByUid(uid: string): Promise<User> {
-    return await admin
-      .auth()
-      .getUser(uid)
-      .then((user) => ({
-        username: user.displayName,
-        email: user.email,
-        uid: user.uid,
-      }));
+  async getUserByUid(uid: string): Promise<UserDetailDto> {
+    const doc = await admin.firestore().doc(`users/${uid}`).get();
+    if (!doc.exists) {
+      throw new Error('User not found');
+    }
+    return {
+      uid,
+      username: doc.data().username,
+      email: doc.data().email,
+    };
   }
 
   async registerUser(user: User): Promise<void> {
