@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { UserDetails } from '../../model/user-details';
-import { VersionRepository } from '../ports/user.repository';
+import { UserRepository } from '../ports/user.repository';
 
 @Injectable()
-export class VersionFirebaseRepository implements VersionRepository {
+export class UserFirebaseRepository implements UserRepository {
   async getUserFromToken(token: string): Promise<UserDetails> {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
     return {
       email: decodedToken.email,
       uid: decodedToken.uid,
+      username: decodedToken.username,
     };
   }
 
@@ -19,8 +20,16 @@ export class VersionFirebaseRepository implements VersionRepository {
       .auth()
       .getUser(uid)
       .then((user) => ({
+        username: user.displayName,
         email: user.email,
         uid: user.uid,
       }));
+  }
+
+  async registerUser(user: UserDetails): Promise<void> {
+    await admin.auth().createUser({
+      uid: user.uid,
+      email: user.email,
+    });
   }
 }

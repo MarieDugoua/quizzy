@@ -5,4 +5,5 @@ export interface UserRepository {
   getUserFromToken(token: string): Promise<UserDetails>;
 
   getUserByUid(uid: string): Promise<UserDetails>;
+  registerUser(user: UserDetails): Promise<void>;
 }
