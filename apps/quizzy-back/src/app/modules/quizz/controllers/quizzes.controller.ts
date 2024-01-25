@@ -4,23 +4,21 @@ import { QuizzRepository } from '../ports/quizz.repository';
 import { RequestWithUser } from '../../auth/model/request-with-user';
 
 export interface QuizzDataDto {
-  id: string;
-  title: string;
+
+  //quizz: QuizzDataDto[];
+
 }
 
-@Controller('quizzes')
+@Controller('quiz')
 export class QuizzesController {
   constructor(@Inject(QuizzRepository) private readonly quizzRepository: QuizzRepository) {}
 
   @Get()
   @Auth()
-  async findAll(@Req() request: RequestWithUser): Promise<QuizzDataDto> {
+  async findAll(@Req() request: RequestWithUser): Promise<QuizzDataDto[]> {
     const uid = request.user.uid;
     const quizz = await this.quizzRepository.getQuizzesByUserId(uid);
 
-    return {
-      id: quizz.id,
-      title: quizz.title,
-    };
+    return quizz;
   }
 }
