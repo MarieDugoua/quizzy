@@ -8,6 +8,8 @@ import { AuthMiddleware } from './modules/auth/auth.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserController } from './modules/user/controllers/user.controller';
 import { UserModule } from './modules/user/user.module';
+import { QuizzesController } from './modules/quizz/controllers/quizzes.controller';
+import { QuizzesModule } from './modules/quizz/quizzes.module';
 
 @Module({
   imports: [
@@ -18,8 +20,9 @@ import { UserModule } from './modules/user/user.module';
     }),
     AuthModule,
     UserModule,
+    QuizzesModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController, UserController, QuizzesController],
   providers: [AppService],
 })
 export class AppModule {
