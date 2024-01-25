@@ -1,6 +1,7 @@
 import { Controller, Get, Inject, Req } from '@nestjs/common';
 import { Auth } from '../../auth/auth.decorator';
 import { QuizzRepository } from '../ports/quizz.repository';
+import { RequestWithUser } from '../../auth/model/request-with-user';
 
 export interface QuizzDataDto {
   id: string;
@@ -13,7 +14,7 @@ export class QuizzesController {
 
   @Get()
   @Auth()
-  async findAll(@Req() request): Promise<QuizzDataDto> {
+  async findAll(@Req() request: RequestWithUser): Promise<QuizzDataDto> {
     const uid = request.user.uid;
     const quizz = await this.quizzRepository.getQuizzesByUserId(uid);
 

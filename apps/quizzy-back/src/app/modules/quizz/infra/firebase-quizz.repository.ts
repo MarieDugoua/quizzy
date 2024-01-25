@@ -6,11 +6,15 @@ import { QuizzDataDto } from '../controllers/quizzes.controller';
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
     async getQuizzesByUserId(userId: string): Promise<QuizzDataDto> {
-        const db = Admin.firestore();
-        const quizz = await db.collection('quizzes').doc(userId).get();
+        const doc = await Admin.firestore().doc(`quizzes/${userId}`).get();
+        
+        if (!doc.exists) {
+            throw new Error('Quizz not found');
+        }
+        
         return {
-            id: quizz.id,
-            title: quizz.data().title,
+            id: doc.id,
+            title: doc.data().title,
         };
     }
 }
