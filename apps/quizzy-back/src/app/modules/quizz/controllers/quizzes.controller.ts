@@ -4,10 +4,11 @@ import { QuizzRepository } from '../ports/quizz.repository';
 import { RequestWithUser } from '../../auth/model/request-with-user';
 
 export interface QuizzDataDto {
-
-  //quizz: QuizzDataDto[];
-
+  id: string;
+  title: string;
+  description: string;
 }
+
 
 @Controller('quiz')
 export class QuizzesController {
