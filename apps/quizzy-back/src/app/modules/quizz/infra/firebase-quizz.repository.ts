@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuizzRepository } from '../ports/quizz.repository';
 import * as Admin from 'firebase-admin';
-import { QuizzDataDto } from '../controllers/quizzes.controller';
+import { CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
 
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
@@ -17,5 +17,13 @@ export class QuizzFirebaseRepository implements QuizzRepository {
           title: doc.data().title,
           description: doc.data().description,
         })) as QuizzDataDto[];
+      }
+
+      async createQuiz(createQuizDto: CreateQuizDto): Promise<string> {
+        const quizRef = await Admin.firestore().collection('quizzes').add({
+          title: createQuizDto.title,
+          description: createQuizDto.description
+        });
+        return quizRef.id;
       }
 }
