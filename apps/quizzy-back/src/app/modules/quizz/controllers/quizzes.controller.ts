@@ -20,16 +20,15 @@ export class QuizzesController {
 
   @Get()
   @Auth()
-  async findAll(@Req() request: RequestWithUser): Promise<QuizzDataDto[]> {
+  async findAll(@Req() request: RequestWithUser): Promise<{ data: QuizzDataDto[] }> {
     const uid = request.user.uid;
     const quizz = await this.quizzRepository.getQuizzesByUserId(uid);
-
-    return quizz;
+    return { data: quizz };
   }
 
   @Post()
   @Auth()
   async create(@Body() createQuizDto: CreateQuizDto): Promise<void> {
-     await this.quizzRepository.createQuiz(createQuizDto);
+    await this.quizzRepository.createQuiz(createQuizDto);
   }
 }
