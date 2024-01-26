@@ -18,7 +18,7 @@ export class CreateQuizDto {
 export class QuizzesController {
   constructor(@Inject(QuizzRepository) private readonly quizzRepository: QuizzRepository) {}
 
-  @Get('/quiz')
+  @Get()
   @Auth()
   async findAll(@Req() request: RequestWithUser): Promise<QuizzDataDto[]> {
     const uid = request.user.uid;

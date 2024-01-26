@@ -23,7 +23,7 @@ export class UserController {
        await this.userRepository.registerUser( {uid: request.user.uid, username: userData.username });
     }
 
-    @Get("/me")
+    @Get('/me')
     @Auth()
     async getMe(@Req() request: RequestWithUser): Promise<UserDetailDto> {
         const { uid, email } = request.user;
