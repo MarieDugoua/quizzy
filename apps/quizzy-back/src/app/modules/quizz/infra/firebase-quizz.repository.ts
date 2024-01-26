@@ -7,11 +7,9 @@ import { CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
 export class QuizzFirebaseRepository implements QuizzRepository {
     async getQuizzesByUserId(userId: string): Promise<QuizzDataDto[]> {
         const collection = await Admin.firestore().collection(`users/${userId}/quizzes`).get();
-        
         if (collection.empty) {
           return [];
         }
-        
         return collection.docs.map(doc => ({
           id: doc.id,
           title: doc.data().title,
