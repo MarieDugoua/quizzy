@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { QuizzRepository } from '../ports/quizz.repository';
 import * as Admin from 'firebase-admin';
 import { CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
-import { title } from 'process';
 
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
