@@ -17,8 +17,8 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         })) as QuizzDataDto[];
       }
 
-      async createQuiz(createQuizDto: CreateQuizDto): Promise<string> {
-        const quizRef = await Admin.firestore().collection('quizzes').add({
+      async createQuiz(createQuizDto: CreateQuizDto, userId: string): Promise<string> {
+        const quizRef = await Admin.firestore().collection(`users/${userId}/quizzes`).add({
           title: createQuizDto.title,
           description: createQuizDto.description
         });

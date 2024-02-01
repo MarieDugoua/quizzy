@@ -4,6 +4,6 @@ export const QuizzRepository = Symbol('QuizzRepository');
 export interface QuizzRepository {
   
     getQuizzesByUserId(userId: string): Promise<QuizzDataDto[]>;
-    createQuiz(createQuizDto: CreateQuizDto): Promise<string>;
+    createQuiz(createQuizDto: CreateQuizDto, userId: string): Promise<string>;
     
   }
