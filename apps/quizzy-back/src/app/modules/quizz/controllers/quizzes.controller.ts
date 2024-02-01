@@ -69,4 +69,10 @@ export class QuizzesController {
 
   }
 
+  @Post('/:id/questions')
+  @Auth()
+  async addQuestion( @Body() title: string, answers: [{title: string, isCorrect: boolean}], @Param('id') idQuiz, @Req() request: RequestWithUser): Promise<void> {
+    await this.quizzRepository.addQuestion(request.user.uid, idQuiz, title, answers);
+  }
+
 }

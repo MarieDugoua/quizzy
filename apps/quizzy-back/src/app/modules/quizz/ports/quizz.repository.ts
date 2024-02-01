@@ -7,4 +7,5 @@ export interface QuizzRepository {
     createQuiz(createQuizDto: CreateQuizDto, userId: string): Promise<string>;
     getQuizByQuizId(userId: string, quizId : string): Promise<QuizzDataDto>;
     updateQuizByQuidId(userId: string, quizId : string,newTitle:string): Promise<QuizzDataDto>;
+    addQuestion(userId: string, quizId: string, title: string, answers: [{title: string, isCorrect: boolean}]): Promise<string>;
   }

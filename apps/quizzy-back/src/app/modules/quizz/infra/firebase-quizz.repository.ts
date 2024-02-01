@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { QuizzRepository } from '../ports/quizz.repository';
 import * as Admin from 'firebase-admin';
 import { CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
+import { title } from 'process';
 
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
@@ -55,5 +56,20 @@ export class QuizzFirebaseRepository implements QuizzRepository {
 
       }
 
+      async addQuestion(userId: string, quizId: string, questionTitle: string, answersQuestions: [{title: string, isCorrect: boolean}]): Promise<string> {
+        
+        console.log(answersQuestions);
+        const doc = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).add({
+          title: questionTitle,
+          // answers: [{
+          //   answersQuestions.forEach(element => {
+          //     title: element.title,
+          //     isCorrect: element.isCorrect
+          //   })
+          // }]
+        });
+
+        return doc.id;
+      }
 
 }
