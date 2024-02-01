@@ -54,5 +54,8 @@
       "!{projectRoot}/eslint.config.js"
     ],
     "sharedGlobals": []
+  },
+  "affected": {
+    "defaultBase": "main"
   }
 }
