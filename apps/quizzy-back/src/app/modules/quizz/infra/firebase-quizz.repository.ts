@@ -31,7 +31,7 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).get();
 
         if (!doc.exists) {
-          throw new Error('User not found');
+          throw new Error('Quiz not found');
         }
         return {
             id: doc.data().id,
@@ -40,4 +40,20 @@ export class QuizzFirebaseRepository implements QuizzRepository {
             questions: doc.data().questions || [],
         }
       }
+
+      async updateQuizByQuidId(userId: string, quizId: string, newTitle:string): Promise<QuizzDataDto> {
+
+          const getQuiz =  await this.getQuizByQuizId(userId,quizId);
+          if (getQuiz) console.log("fdsf");
+          
+          const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).update({title:newTitle});
+          console.log(doc);
+          
+          const updateDoc = await this.getQuizByQuizId(userId,quizId);
+          return updateDoc
+               
+
+      }
+
+
 }
