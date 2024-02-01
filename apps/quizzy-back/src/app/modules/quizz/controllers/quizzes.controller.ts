@@ -1,4 +1,4 @@
- import { Controller, Get, Inject, Req, Post, Body, Header, Res } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Post, Body, Header, Res, Param } from '@nestjs/common';
 import { Auth } from '../../auth/auth.decorator';
 import { QuizzRepository } from '../ports/quizz.repository';
 import { RequestWithUser } from '../../auth/model/request-with-user';
@@ -7,11 +7,14 @@ export interface QuizzDataDto {
   id: string;
   title: string;
   description: string;
+  questions : [];
+
 }
 
 export class CreateQuizDto {
   readonly title: string;
   readonly description: string;
+  
 }
 
 @Controller('quiz')
@@ -24,6 +27,16 @@ export class QuizzesController {
     const uid = request.user.uid;
     const quizz = await this.quizzRepository.getQuizzesByUserId(uid);
     return { data: quizz };
+  }
+
+  @Get('/:id')
+  @Auth()
+
+  async findQuiz(@Req() request: RequestWithUser, @Param('id') id): Promise <QuizzDataDto > {
+    const uid = request.user.uid;
+    const qid= id ;
+    const quizz = await this.quizzRepository.getQuizByQuizId(uid,qid);
+    return quizz;
   }
 
   @Post()

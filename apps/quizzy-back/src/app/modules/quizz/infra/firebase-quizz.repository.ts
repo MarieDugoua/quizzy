@@ -24,4 +24,20 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         });
         return quizRef.id;
       }
+
+      async getQuizByQuizId(userId: string,quizId : string): Promise<QuizzDataDto> {
+
+
+        const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).get();
+
+        if (!doc.exists) {
+          throw new Error('User not found');
+        }
+        return {
+            id: doc.data().id,
+            title:doc.data().title,
+            description:doc.data().description,
+            questions: doc.data().questions || [],
+        }
+      }
 }

@@ -5,5 +5,5 @@ export interface QuizzRepository {
   
     getQuizzesByUserId(userId: string): Promise<QuizzDataDto[]>;
     createQuiz(createQuizDto: CreateQuizDto, userId: string): Promise<string>;
-    
+    getQuizByQuizId(userId: string, quizId : string): Promise<QuizzDataDto>;
   }
