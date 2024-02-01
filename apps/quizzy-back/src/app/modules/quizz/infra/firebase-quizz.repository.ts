@@ -72,4 +72,18 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         return doc.id;
       }
 
+      async getQuizAllQuestions(userId: string, quizId: string): Promise<QuizzDataDto> {
+        const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).get();
+
+        if(!doc.exists) {
+          throw new Error('Quiz not found');
+        }
+
+        return {
+          id: doc.data().id,
+          title:doc.data().title,
+          description:doc.data().description,
+          questions: doc.data().questions
+        }
+      }
 }

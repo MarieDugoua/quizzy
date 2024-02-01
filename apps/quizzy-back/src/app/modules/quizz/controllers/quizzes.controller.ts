@@ -75,4 +75,12 @@ export class QuizzesController {
     await this.quizzRepository.addQuestion(request.user.uid, idQuiz, title, answers);
   }
 
+  @Get('/:id')
+  @Auth()
+  async getAll(@Req() request: RequestWithUser, @Param('id') id): Promise<QuizzDataDto> {
+    const uid = request.user.uid;
+    const qid = id;
+    const quizz = await this.quizzRepository.getQuizAllQuestions(uid, qid);
+    return quizz;
+  }
 }
