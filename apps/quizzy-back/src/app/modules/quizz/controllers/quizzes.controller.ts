@@ -62,17 +62,20 @@ export class QuizzesController {
     const titleOperation = updateOperations.find(operation => operation.path === '/title');
 
     if (titleOperation && titleOperation.op === 'replace') {
-    await this.quizzRepository.updateQuizByQuidId(uid, qid, titleOperation.value);
-    const quizz = await this.quizzRepository.getQuizByQuizId(uid,qid);
-    return quizz;
-  }
-
+      await this.quizzRepository.updateQuizByQuidId(uid, qid, titleOperation.value);
+      const quizz = await this.quizzRepository.getQuizByQuizId(uid,qid);
+      return quizz;
+    }
   }
 
   @Post('/:id/questions')
   @Auth()
-  async addQuestion( @Body() title: string, answers: [{title: string, isCorrect: boolean}], @Param('id') idQuiz, @Req() request: RequestWithUser): Promise<void> {
-    await this.quizzRepository.addQuestion(request.user.uid, idQuiz, title, answers);
+  async addQuestion(
+    @Body() body: { title: string; answers: [{ title: string; isCorrect: boolean }] },
+    @Param('id') idQuiz: string,
+    @Req() request: RequestWithUser,
+  ): Promise<void> {
+    await this.quizzRepository.addQuestion(request.user.uid, idQuiz, body.title, body.answers);
   }
 
   @Get('/:id')

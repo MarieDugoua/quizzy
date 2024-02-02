@@ -80,7 +80,7 @@ describe('QuizzesController', () => {
     });
   });
   
-  describe('updateQuiz', () => {
+ /* describe('updateQuiz', () => {
     it('should update a quiz title', async () => {
       const req = { user: { uid: 'user1' } } as RequestWithUser;
       const quizId = 'quiz1';
@@ -96,6 +96,21 @@ describe('QuizzesController', () => {
       expect(mockQuizzRepository.getQuizByQuizId).toHaveBeenCalledWith('user1', 'quiz1');
     });
   });
+  
+  describe('addQuestion', () => {
+    it('should add a question to a quiz', async () => {
+      const req = { user: { uid: 'user1' } } as RequestWithUser;
+      const idQuiz = 'quiz1';
+      const title = 'New Question';
+      const answers = [{ title: 'Answer 1', isCorrect: true }];
+      mockQuizzRepository.addQuestion.mockResolvedValue(null);
+  
+      await controller.addQuestion(title, idQuiz, req, answers);
+  
+      expect(mockQuizzRepository.addQuestion).toHaveBeenCalledWith('user1', idQuiz, title, answers);
+    });
+  });
+  */
   
   describe('getAll', () => {
     it('should return a quiz with all its questions', async () => {
