@@ -57,8 +57,6 @@ export class QuizzFirebaseRepository implements QuizzRepository {
       }
 
       async addQuestion(userId: string, quizId: string, title: string, answers: { title: string; isCorrect: boolean }[]): Promise<string> {
-        
-        console.log(answers);
         const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`);
         const documentSnapshot = await doc.get();
         const donneesActuelles = documentSnapshot.exists ? documentSnapshot.data() : {};
