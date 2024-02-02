@@ -71,7 +71,7 @@ export class QuizzesController {
   @Post('/:id/questions')
   @Auth()
   async addQuestion(
-    @Body() body: { title: string; answers: [{ title: string; isCorrect: boolean }] },
+    @Body() body: { title: string; answers: { title: string; isCorrect: boolean }[] },
     @Param('id') idQuiz: string,
     @Req() request: RequestWithUser,
   ): Promise<void> {
