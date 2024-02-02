@@ -20,7 +20,8 @@ export class QuizzFirebaseRepository implements QuizzRepository {
       async createQuiz(createQuizDto: CreateQuizDto, userId: string): Promise<string> {
         const quizRef = await Admin.firestore().collection(`users/${userId}/quizzes`).add({
           title: createQuizDto.title,
-          description: createQuizDto.description
+          description: createQuizDto.description,
+          questions: []
         });
         return quizRef.id;
       }
@@ -55,18 +56,15 @@ export class QuizzFirebaseRepository implements QuizzRepository {
 
       }
 
-      async addQuestion(userId: string, quizId: string, questionTitle: string, answersQuestions: [{title: string, isCorrect: boolean}]): Promise<string> {
+      async addQuestion(userId: string, quizId: string, title: string, answers: { title: string; isCorrect: boolean }[]): Promise<string> {
         
-        console.log(answersQuestions);
-        const doc = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).add({
-          title: questionTitle,
-          // answers: [{
-          //   answersQuestions.forEach(element => {
-          //     title: element.title,
-          //     isCorrect: element.isCorrect
-          //   })
-          // }]
-        });
+        console.log(answers);
+        const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`);
+        const documentSnapshot = await doc.get();
+        const donneesActuelles = documentSnapshot.exists ? documentSnapshot.data() : {};
+        donneesActuelles['questions'] = donneesActuelles['questions'] || [];
+        donneesActuelles['questions'].push({title: title, answers: answers});
+        await doc.update(donneesActuelles);
 
         return doc.id;
       }
