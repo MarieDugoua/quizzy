@@ -8,7 +8,6 @@ export class PingController {
   @Get()
   async ping(): Promise<{/*status: string, details: { database: string }*/}> {
     try {
-      // Exemple: Utilisation de Firebase
       await this.versionRepository.getVersion();
       return {status: 'OK', details: {database: 'OK'}};
     }
