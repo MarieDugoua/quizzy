@@ -80,37 +80,47 @@ describe('QuizzesController', () => {
     });
   });
   
- /* describe('updateQuiz', () => {
-    it('should update a quiz title', async () => {
+  describe('updateQuiz', () => {
+    it('should update the quiz title and return the updated quiz', async () => {
       const req = { user: { uid: 'user1' } } as RequestWithUser;
       const quizId = 'quiz1';
-      const updateOperations = [{ op: 'replace', path: '/title', value: 'Updated Title' }];
-      const updatedQuiz = { id: 'quiz1', title: 'Updated Title', description: 'Description 1', questions: [] };
-      mockQuizzRepository.updateQuizByQuidId.mockResolvedValue(null);
+      const updateOperations: [{ op: string; path: string; value: string; }] = [{ op: 'replace', path: '/title', value: 'Updated Quiz Title' }];
+
+      const updatedQuiz = {
+        id: quizId,
+        title: 'Updated Quiz Title',
+        description: 'Description 1',
+        questions: [],
+      };
+      mockQuizzRepository.updateQuizByQuidId.mockResolvedValue(undefined); 
       mockQuizzRepository.getQuizByQuizId.mockResolvedValue(updatedQuiz);
   
       const result = await controller.updateQuiz(updateOperations, req, quizId);
   
       expect(result).toEqual(updatedQuiz);
-      expect(mockQuizzRepository.updateQuizByQuidId).toHaveBeenCalledWith('user1', 'quiz1', 'Updated Title');
-      expect(mockQuizzRepository.getQuizByQuizId).toHaveBeenCalledWith('user1', 'quiz1');
+      expect(mockQuizzRepository.updateQuizByQuidId).toHaveBeenCalledWith('user1', quizId, 'Updated Quiz Title');
+      expect(mockQuizzRepository.getQuizByQuizId).toHaveBeenCalledWith('user1', quizId);
     });
   });
   
   describe('addQuestion', () => {
-    it('should add a question to a quiz', async () => {
+    it('should add a new question to the quiz', async () => {
       const req = { user: { uid: 'user1' } } as RequestWithUser;
-      const idQuiz = 'quiz1';
-      const title = 'New Question';
-      const answers = [{ title: 'Answer 1', isCorrect: true }];
-      mockQuizzRepository.addQuestion.mockResolvedValue(null);
+      const quizId = 'quiz1';
+      const newQuestion = {
+        title: 'New Question',
+        answers: [
+          { title: 'Answer 1', isCorrect: false },
+          { title: 'Answer 2', isCorrect: true },
+        ],
+      };
+      mockQuizzRepository.addQuestion.mockResolvedValue(undefined);
   
-      await controller.addQuestion(title, idQuiz, req, answers);
+      await controller.addQuestion(newQuestion, quizId, req);
   
-      expect(mockQuizzRepository.addQuestion).toHaveBeenCalledWith('user1', idQuiz, title, answers);
+      expect(mockQuizzRepository.addQuestion).toHaveBeenCalledWith('user1', quizId, newQuestion.title, newQuestion.answers);
     });
   });
-  */
   
   describe('getAll', () => {
     it('should return a quiz with all its questions', async () => {
