@@ -7,14 +7,18 @@ export interface QuizzDataDto {
   id: string;
   title: string;
   description: string;
-  questions : [];
 
 }
 
-export class CreateQuizDto {
+export interface CreateQuizDto {
   readonly title: string;
   readonly description: string;
   
+}
+
+export interface CreateQuestionDto{
+  readonly title:string;
+  readonly answers:[title:string,isCorrect:boolean]
 }
 
 @Controller('quiz')
@@ -71,11 +75,11 @@ export class QuizzesController {
   @Post('/:id/questions')
   @Auth()
   async addQuestion(
-    @Body() body: { title: string; answers: { title: string; isCorrect: boolean }[] },
+    @Body() createQuestionDto:CreateQuestionDto,
     @Param('id') idQuiz: string,
     @Req() request: RequestWithUser,
   ): Promise<void> {
-    await this.quizzRepository.addQuestion(request.user.uid, idQuiz, body.title, body.answers);
+    await this.quizzRepository.addQuestion(request.user.uid, idQuiz, createQuestionDto);
   }
 
   @Get('/:id')

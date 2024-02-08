@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuizzRepository } from '../ports/quizz.repository';
 import * as Admin from 'firebase-admin';
-import { CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
+import { CreateQuestionDto, CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
 
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
@@ -21,7 +21,6 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         const quizRef = await Admin.firestore().collection(`users/${userId}/quizzes`).add({
           title: createQuizDto.title,
           description: createQuizDto.description,
-          questions: []
         });
         return quizRef.id;
       }
@@ -38,7 +37,6 @@ export class QuizzFirebaseRepository implements QuizzRepository {
             id: doc.data().id,
             title:doc.data().title,
             description:doc.data().description,
-            questions: doc.data().questions || [],
         }
       }
 
@@ -56,15 +54,12 @@ export class QuizzFirebaseRepository implements QuizzRepository {
 
       }
 
-      async addQuestion(userId: string, quizId: string, title: string, answers: { title: string; isCorrect: boolean }[]): Promise<string> {
-        const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`);
-        const documentSnapshot = await doc.get();
-        const donneesActuelles = documentSnapshot.exists ? documentSnapshot.data() : {};
-        donneesActuelles['questions'] = donneesActuelles['questions'] || [];
-        donneesActuelles['questions'].push({title: title, answers: answers});
-        await doc.update(donneesActuelles);
-
-        return doc.id;
+      async addQuestion(userId: string, quizId: string,createQuestionDto: CreateQuestionDto): Promise<string> {
+        const question = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).add({
+          title: createQuestionDto.title,
+          answers: createQuestionDto.answers
+        });
+        return question.id;
       }
 
       async getQuizAllQuestions(userId: string, quizId: string): Promise<QuizzDataDto> {
@@ -78,7 +73,7 @@ export class QuizzFirebaseRepository implements QuizzRepository {
           id: doc.data().id,
           title:doc.data().title,
           description:doc.data().description,
-          questions: doc.data().questions
+          //questions: doc.data().questions
         }
       }
 }
