@@ -14,7 +14,6 @@ describe('QuizzesController', () => {
       createQuiz: jest.fn(),
       updateQuizByQuidId: jest.fn(),
       addQuestion: jest.fn(),
-      getQuizAllQuestions: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -119,7 +118,7 @@ describe('QuizzesController', () => {
     });
   });  
   
-  describe('getAll', () => {
+  describe('findQuiz', () => {
     it('should return a quiz with all its questions', async () => {
       const req = { user: { uid: 'user1' } } as RequestWithUser;
       const quizId = 'quiz1';
@@ -131,13 +130,12 @@ describe('QuizzesController', () => {
           { title: 'Question 1', answers: [{ title: 'Answer 1', isCorrect: true }] }
         ]
       };
-      mockQuizzRepository.getQuizAllQuestions.mockResolvedValue(mockQuizWithQuestions);
+      mockQuizzRepository.getQuizByQuizId.mockResolvedValue(mockQuizWithQuestions);
   
-      const result = await controller.getAll(req, quizId);
+      const result = await controller.findQuiz(req, quizId);
   
       expect(result).toEqual(mockQuizWithQuestions);
-      expect(mockQuizzRepository.getQuizAllQuestions).toHaveBeenCalledWith('user1', 'quiz1');
+      expect(mockQuizzRepository.getQuizByQuizId).toHaveBeenCalledWith('user1', 'quiz1');
     });
   });
-
 });
