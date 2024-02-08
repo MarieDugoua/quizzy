@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QuizzesController } from './quizzes.controller';
+import { CreateQuestionDto, QuizzesController } from './quizzes.controller';
 import { QuizzRepository } from '../ports/quizz.repository';
 import { RequestWithUser } from '../../auth/model/request-with-user';
 
@@ -107,20 +107,17 @@ describe('QuizzesController', () => {
     it('should add a new question to the quiz', async () => {
       const req = { user: { uid: 'user1' } } as RequestWithUser;
       const quizId = 'quiz1';
-      const newQuestion = {
+      const newQuestion: CreateQuestionDto = {
         title: 'New Question',
-        answers: [
-          { title: 'Answer 1', isCorrect: false },
-          { title: 'Answer 2', isCorrect: true },
-        ],
+        answers: ['Answer 1', true]
       };
       mockQuizzRepository.addQuestion.mockResolvedValue(undefined);
   
       await controller.addQuestion(newQuestion, quizId, req);
   
-      expect(mockQuizzRepository.addQuestion).toHaveBeenCalledWith('user1', quizId, newQuestion.title, newQuestion.answers);
+      expect(mockQuizzRepository.addQuestion).toHaveBeenCalledWith('user1', quizId, newQuestion);
     });
-  });
+  });  
   
   describe('getAll', () => {
     it('should return a quiz with all its questions', async () => {
