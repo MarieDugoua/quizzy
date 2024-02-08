@@ -49,21 +49,17 @@ export class QuizzFirebaseRepository implements QuizzRepository {
       
       
 
-    async updateQuizByQuidId(userId: string, quizId: string, newTitle:string): Promise<QuizzDataDto> {
-
-      const getQuiz =  await this.getQuizByQuizId(userId,quizId);
+    async updateQuizByQuidId(userId, quizId, newTitle) {
+      const getQuiz = await this.getQuizByQuizId(userId, quizId);
       if (!getQuiz) {
-        console.log("quiz not found")
+          console.log("Quiz not found.");
+          return null; 
       }
-
-      else{
-      const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).update({title:newTitle});
-          
-      const updateDoc = await this.getQuizByQuizId(userId,quizId);
-          return updateDoc
-      }     
-
-      }
+  
+      await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).update({ title: newTitle });
+      return await this.getQuizByQuizId(userId, quizId); 
+  }
+  
 
       async addQuestion(userId: string, quizId: string,createQuestionDto: CreateQuestionDto): Promise<string> {
         const question = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).add({
@@ -72,10 +68,4 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         });
         return question.id;
       }
-
-      async getQuizAllQuestions(userId: string, quizId: string): Promise<string> {
-        const col = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).get();
-        console.log(col,"test");
-        
-      return 'dsfdss';
-}}
+}
