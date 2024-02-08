@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuizzRepository } from '../ports/quizz.repository';
 import * as Admin from 'firebase-admin';
-import { CreateQuestionDto, CreateQuizDto, QuizzDataDto } from '../controllers/quizzes.controller';
+import { CreateQuestionDto, CreateQuizDto, QuestionDataDto, QuizzDataDto } from '../controllers/quizzes.controller';
 
 @Injectable()
 export class QuizzFirebaseRepository implements QuizzRepository {
@@ -26,17 +26,19 @@ export class QuizzFirebaseRepository implements QuizzRepository {
       }
 
       async getQuizByQuizId(userId: string,quizId : string): Promise<QuizzDataDto> {
-
-
         const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).get();
+        const questions = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).get();
 
         if (!doc.exists) {
           throw new Error('Quiz not found');
         }
+        console.log(doc.data());
+        
         return {
             id: doc.data().id,
             title:doc.data().title,
             description:doc.data().description,
+            questions: doc.data().questions
         }
       }
 
@@ -62,18 +64,25 @@ export class QuizzFirebaseRepository implements QuizzRepository {
         return question.id;
       }
 
-      async getQuizAllQuestions(userId: string, quizId: string): Promise<QuizzDataDto> {
-        const doc = await Admin.firestore().doc(`users/${userId}/quizzes/${quizId}`).get();
+      async getQuizAllQuestions(userId: string, quizId: string): Promise<string> {
+        const col = await Admin.firestore().collection(`users/${userId}/quizzes/${quizId}/questions`).get();
+        console.log(col);
+        
+        /*if(!col.empty) {
+          throw new Error('question not found');
+        }*/
 
-        if(!doc.exists) {
-          throw new Error('Quiz not found');
-        }
+        /*let questions: QuestionDataDto[];
 
-        return {
-          id: doc.data().id,
-          title:doc.data().title,
-          description:doc.data().description,
-          //questions: doc.data().questions
-        }
-      }
-}
+        col.forEach(element => {
+          questions.push({title: element})
+        });
+
+        return col.docs.map(doc => ({
+          id : doc.id,
+          title: ,
+          answers: doc.get(),
+        })) as QuestionDataDto[];
+      }*/
+      return 'dsfdss';
+}}

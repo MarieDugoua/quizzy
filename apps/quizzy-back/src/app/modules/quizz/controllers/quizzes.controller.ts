@@ -7,6 +7,7 @@ export interface QuizzDataDto {
   id: string;
   title: string;
   description: string;
+  questions : QuestionDataDto[];
 
 }
 
@@ -17,8 +18,13 @@ export interface CreateQuizDto {
 }
 
 export interface CreateQuestionDto{
-  readonly title:string;
-  readonly answers:[title:string,isCorrect:boolean]
+  readonly title: string;
+  readonly answers: [title:string,isCorrect:boolean];
+}
+
+export interface QuestionDataDto {
+  title: string;
+  answers: [title:string,isCorrect:boolean];
 }
 
 @Controller('quiz')
@@ -33,14 +39,7 @@ export class QuizzesController {
     return { data: quizz };
   }
 
-  @Get('/:id')
-  @Auth()
-  async findQuiz(@Req() request: RequestWithUser, @Param('id') id): Promise <QuizzDataDto > {
-    const uid = request.user.uid;
-    const qid= id ;
-    const quizz = await this.quizzRepository.getQuizByQuizId(uid,qid);
-    return quizz;
-  }
+
 
   @Post()
   @Auth()
@@ -82,12 +81,20 @@ export class QuizzesController {
     await this.quizzRepository.addQuestion(request.user.uid, idQuiz, createQuestionDto);
   }
 
-  @Get('/:id')
+  /*@Get('/:id')
   @Auth()
-  async getAll(@Req() request: RequestWithUser, @Param('id') id): Promise<QuizzDataDto> {
+  async getAll(@Req() request: RequestWithUser, @Param('id') id): Promise<string> {
     const uid = request.user.uid;
     const qid = id;
     const quizz = await this.quizzRepository.getQuizAllQuestions(uid, qid);
+    return quizz;
+  }*/
+  @Get('/:id')
+  @Auth()
+  async findQuiz(@Req() request: RequestWithUser, @Param('id') id): Promise <QuizzDataDto > {
+    const uid = request.user.uid;
+    const qid= id ;
+    const quizz = await this.quizzRepository.getQuizByQuizId(uid,qid);
     return quizz;
   }
 }
